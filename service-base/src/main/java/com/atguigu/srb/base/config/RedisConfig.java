@@ -15,12 +15,16 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 public class RedisConfig {
     @Bean
     public RedisTemplate<String, Object> redisTemplate(LettuceConnectionFactory redisConnectionFactory) {
+
+        //设置连接池工厂LettuceConnectionFactory
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
-        //首先解决key的序列化方式
+
+        //设置key的序列化方式
         StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
         redisTemplate.setKeySerializer(stringRedisSerializer);
-        //解决value的序列化方式
+
+        //设置value的序列化方式
         Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
         //序列化时将类的数据类型存入json，以便反序列化的时候转换成正确的类型
         ObjectMapper objectMapper = new ObjectMapper();

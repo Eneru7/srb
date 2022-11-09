@@ -20,12 +20,15 @@ public class ExcelDictDTOListener extends AnalysisEventListener<ExcelDictDTO> {
     private static final int BATCH_COUNT = 5;
     List<ExcelDictDTO> list = new ArrayList();
     private DictMapper dictMapper;
+
     //传入mapper对象
     public ExcelDictDTOListener(DictMapper dictMapper) {
         this.dictMapper = dictMapper;
     }
+
     /**
-     *遍历每一行的记录
+     * 遍历每一行的记录
+     *
      * @param data
      * @param context
      */
@@ -40,6 +43,7 @@ public class ExcelDictDTOListener extends AnalysisEventListener<ExcelDictDTO> {
             list.clear();
         }
     }
+
     /**
      * 所有数据解析完成了 都会来调用
      */
@@ -49,6 +53,7 @@ public class ExcelDictDTOListener extends AnalysisEventListener<ExcelDictDTO> {
         saveData();
         log.info("所有数据解析完成！");
     }
+
     /**
      * 加上存储数据库
      */

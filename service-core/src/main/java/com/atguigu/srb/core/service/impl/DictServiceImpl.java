@@ -59,13 +59,6 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
 
     @Override
     public List<Dict> listByParentId(Long parentId) {
-        //List<Dict> dictList = baseMapper.selectList(new QueryWrapper<Dict>().eq("parent_id", parentId));
-        //dictList.forEach(dict -> {
-        //    //如果有子节点，则是非叶子节点
-        //    boolean hasChildren = this.hasChildren(dict.getId());
-        //    dict.setHasChildren(hasChildren);
-        //});
-        //return dictList;
 
         //先查询redis中是否存在数据列表
         List<Dict> dictList = null;

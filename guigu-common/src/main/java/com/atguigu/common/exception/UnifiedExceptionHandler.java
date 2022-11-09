@@ -32,7 +32,7 @@ public class UnifiedExceptionHandler {
     @ExceptionHandler(value = Exception.class) //当controller中抛出Exception，则捕获
     public R handleException(Exception e) {
         log.error(e.getMessage(), e);
-        return R.error();
+        return R.error();//-1,服务器内部错误
     }
 
     /**

@@ -32,11 +32,10 @@ public class ApiSmsController {
     private CoreUserInfoClient coreUserInfoClient;
     @Resource
     private RedisTemplate redisTemplate;
+
     @ApiOperation("获取验证码")
     @GetMapping("/send/{mobile}")
-    public R send(
-            @ApiParam(value = "手机号", required = true)
-            @PathVariable String mobile){
+    public R send(@ApiParam(value = "手机号", required = true) @PathVariable String mobile) {
         //MOBILE_NULL_ERROR(-202, "手机号不能为空"),
         Assert.notEmpty(mobile, ResponseEnum.MOBILE_NULL_ERROR);
         //MOBILE_ERROR(-203, "手机号不正确"),
@@ -50,10 +49,12 @@ public class ApiSmsController {
         //生成验证码
         String code = RandomUtils.getFourBitRandom();
         //组装短信模板参数
-        Map<String,Object> param = new HashMap<>();
+        Map<String, Object> param = new HashMap<>();
         param.put("code", code);
+
         //发送短信
         //smsService.send(mobile, SmsProperties.TEMPLATE_CODE, param);
+
         //将验证码存入redis
         redisTemplate.opsForValue().set("srb:sms:code:" + mobile, code, 5, TimeUnit.MINUTES);
         return R.ok().message("短信发送成功");

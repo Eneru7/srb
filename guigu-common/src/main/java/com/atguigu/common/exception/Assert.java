@@ -14,7 +14,7 @@ public abstract class Assert {
      */
     public static void notNull(Object obj, ResponseEnum responseEnum) {
         if (obj == null) {
-            log.info("obj is null...............");
+            log.info("Assert Result : Object is null !");
             throw new BusinessException(responseEnum);
         }
     }
@@ -28,7 +28,7 @@ public abstract class Assert {
      */
     public static void isNull(Object object, ResponseEnum responseEnum) {
         if (object != null) {
-            log.info("obj is not null......");
+            log.info("Assert Result : Object is not null !");
             throw new BusinessException(responseEnum);
         }
     }
@@ -41,7 +41,7 @@ public abstract class Assert {
      */
     public static void isTrue(boolean expression, ResponseEnum responseEnum) {
         if (!expression) {
-            log.info("fail...............");
+            log.info("Assert Result : It is false !");
             throw new BusinessException(responseEnum);
         }
     }
@@ -55,7 +55,7 @@ public abstract class Assert {
      */
     public static void notEquals(Object m1, Object m2,  ResponseEnum responseEnum) {
         if (m1.equals(m2)) {
-            log.info("equals...............");
+            log.info("Assert Result : They are equal.");
             throw new BusinessException(responseEnum);
         }
     }
@@ -69,7 +69,7 @@ public abstract class Assert {
      */
     public static void equals(Object m1, Object m2,  ResponseEnum responseEnum) {
         if (!m1.equals(m2)) {
-            log.info("not equals...............");
+            log.info("Assert Result : They are not equal.");
             throw new BusinessException(responseEnum);
         }
     }
@@ -82,7 +82,7 @@ public abstract class Assert {
      */
     public static void notEmpty(String s, ResponseEnum responseEnum) {
         if (StringUtils.isEmpty(s)) {
-            log.info("is empty...............");
+            log.info("Assert Result : The string is empty.");
             throw new BusinessException(responseEnum);
         }
     }

@@ -23,14 +23,19 @@ import java.util.Map;
 @Service
 @Slf4j
 public class SmsServiceImpl implements SmsService {
+
+    /**
+     * @param mobile       手机号码
+     * @param templateCode 比如测试专用的短信模板是固定的
+     * @param param        测试模板中的参数，比如code
+     */
     @Override
-    public void send(String mobile, String templateCode, Map<String,Object> param) {
+    public void send(String mobile, String templateCode, Map<String, Object> param) {
+
         //创建远程连接客户端对象
-        DefaultProfile profile = DefaultProfile.getProfile(
-                SmsProperties.REGION_Id,
-                SmsProperties.KEY_ID,
-                SmsProperties.KEY_SECRET);
+        DefaultProfile profile = DefaultProfile.getProfile(SmsProperties.REGION_Id, SmsProperties.KEY_ID, SmsProperties.KEY_SECRET);
         IAcsClient client = new DefaultAcsClient(profile);
+
         //创建远程连接的请求参数
         CommonRequest request = new CommonRequest();
         request.setSysMethod(MethodType.POST);
@@ -41,36 +46,47 @@ public class SmsServiceImpl implements SmsService {
         request.putQueryParameter("PhoneNumbers", mobile);
         request.putQueryParameter("SignName", SmsProperties.SIGN_NAME);
         request.putQueryParameter("TemplateCode", templateCode);
+        //将Map集合通过json工具转为String
         Gson gson = new Gson();
         String json = gson.toJson(param);
         request.putQueryParameter("TemplateParam", json);
+
         try {
+
             //使用客户端对象携带请求对象发送请求并得到响应结果
             CommonResponse response = client.getCommonResponse(request);
             boolean success = response.getHttpResponse().isSuccess();
-            //ALIYUN_RESPONSE_FAIL(-501, "阿里云响应失败"),
+
+            //阿里云响应失败，通信失败的处理
             Assert.isTrue(success, ResponseEnum.ALIYUN_RESPONSE_FAIL);
+
+            //获取响应结果
             String data = response.getData();
             HashMap<String, String> resultMap = gson.fromJson(data, HashMap.class);
             String code = resultMap.get("Code");
             String message = resultMap.get("Message");
+
             log.info("阿里云短信发送响应结果：");
             log.info("code：" + code);
             log.info("message：" + message);
-            //ALIYUN_SMS_LIMIT_CONTROL_ERROR(-502, "短信发送过于频繁"),//业务限流
+
+            //阿里云业务处理失败的处理
             Assert.notEquals("isv.BUSINESS_LIMIT_CONTROL", code, ResponseEnum.ALIYUN_SMS_LIMIT_CONTROL_ERROR);
-            //ALIYUN_SMS_ERROR(-503, "短信发送失败"),//其他失败
             Assert.equals("OK", code, ResponseEnum.ALIYUN_SMS_ERROR);
+
         } catch (ServerException e) {
+
             log.error("阿里云短信发送SDK调用失败：");
             log.error("ErrorCode=" + e.getErrCode());
             log.error("ErrorMessage=" + e.getErrMsg());
-            throw new BusinessException(ResponseEnum.ALIYUN_SMS_ERROR , e);
+            throw new BusinessException(ResponseEnum.ALIYUN_SMS_ERROR, e);
+
         } catch (ClientException e) {
+
             log.error("阿里云短信发送SDK调用失败：");
             log.error("ErrorCode=" + e.getErrCode());
             log.error("ErrorMessage=" + e.getErrMsg());
-            throw new BusinessException(ResponseEnum.ALIYUN_SMS_ERROR , e);
+            throw new BusinessException(ResponseEnum.ALIYUN_SMS_ERROR, e);
         }
     }
 }

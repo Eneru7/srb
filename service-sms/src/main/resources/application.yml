@@ -26,8 +26,8 @@ spring:
 aliyun:
   sms:
     region-id: cn-hangzhou
-    key-id: LTAI5tRHu33VgmSvgpy52EdK7
-    key-secret: MjWUTQdXsUB65ppSMUyvyya7CuUVgB7
+    key-id: LTAI5tRHu33VgmSvgpy52EdK
+    key-secret: MjWUTQdXsUB65ppSMUyvyya7CuUVgB
     template-code: SMS_154950909
     sign-name: "阿里云短信测试"
 

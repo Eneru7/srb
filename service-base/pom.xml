@@ -22,12 +22,12 @@
             <artifactId>guigu-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        <!--swagger-->
+        <!--swagger 根据用户写的接口，生成测试文档-->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
         </dependency>
-        <!--swagger ui-->
+        <!--swagger ui 可以生成测试界面-->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
